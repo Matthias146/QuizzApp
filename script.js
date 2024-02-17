@@ -42,6 +42,7 @@ let questions = [
 ];
 
 let currentQuestion = 0;
+let rightQuestions = 0;
 
 function init() {
     document.getElementById('all-questions').innerHTML = questions.length;
@@ -53,10 +54,19 @@ function showQuestion() {
     if (currentQuestion >= questions.length) {
         document.getElementById('endScreen').style = '';
         document.getElementById('questionBody').style = 'display: none';
+        document.getElementById('amount-of-questions').innerHTML = questions.length;
+        document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
+        document.getElementById('header-img').src = 'img/pokal.png';
     } else {
 
+        let percent = (currentQuestion + 1) / questions.length;
+        percent = Math.round(percent * 100);
+        document.getElementById('progress-bar').innerHTML = `${percent} %`
+        document.getElementById('progress-bar').style.width = `${percent}%`
+        console.log('Fortschritt', percent);
 
         let question = questions[currentQuestion];
+
         document.getElementById('question-number').innerHTML = currentQuestion + 1;
         document.getElementById('questionText').innerHTML = question['question'];
         document.getElementById('answer_1').innerHTML = question['answer_1'];
@@ -78,6 +88,7 @@ function answer(selection) {
     if (selectedQuestionNumber == question['right_answer']) {
         console.log('Richtige Antwort')
         document.getElementById(selection).parentNode.classList.add("bg-success")
+        rightQuestions++;
     } else {
         document.getElementById(selection).parentNode.classList.add("bg-danger")
         document.getElementById(isRightAnswer).parentNode.classList.add("bg-success")
